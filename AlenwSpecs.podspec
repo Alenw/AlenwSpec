@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
 	    this is a pravite framework.
 	DESC
 	s.homepage = 'https://github.com/Alenw'
-	s.author = { 'Alenw' => 'https://github.com/Alenw' }
-	s.source = { :path => '~/Desktop/AlenwSpecs',:tag => '1.0.0' }
+	s.author = { 'Alenw' => 'lanskyxti@163.com' }
+	s.source = { :git => 'https://github.com/Alenw/AlenwSpec.git',:tag => '1.0.0' }
 	s.platform = :ios,"7.0"
 	s.requires_arc = true
 
