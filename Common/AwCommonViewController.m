@@ -1,0 +1,243 @@
+//
+//  AwCommonViewController.m
+//  AlenW
+//
+//  Created by soyoung on 16/2/1.
+//  Copyright © 2016年 AlenW. All rights reserved.
+//
+
+#import "AwCommonViewController.h"
+#import <SKYCategory/SKYCategory.h>
+#import "UITableView+Extension.h"
+
+@interface AwCommonViewController ()
+
+@end
+
+@implementation AwCommonViewController
+
++ (id)controller
+{
+    return [[self alloc] init];
+}
+
+- (id)init{
+    self = [super init];
+    if (self) {
+//        self.isNeedBackItem = YES;
+//        self.bSupportPanUI = YES;
+        self.hasNav = YES;
+        self.iOS7FullScreenLayout = NO;
+    }
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+//        self.isNeedBackItem = YES;
+//        self.bSupportPanUI = YES;
+        self.hasNav = YES;
+        self.iOS7FullScreenLayout = NO;
+    }
+    
+    return self;
+}
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
+    self=[super initWithCoder:aDecoder];
+    if (self) {
+        self.hasNav = YES;
+        self.iOS7FullScreenLayout = NO;
+    }
+    return self;
+}
+
+- (void)setIOS7FullScreenLayout:(BOOL)iOS7FullScreenLayout
+{
+    _iOS7FullScreenLayout = iOS7FullScreenLayout;
+    if (IOS7_OR_LATER)
+    {
+        if (_iOS7FullScreenLayout)
+        {
+            self.edgesForExtendedLayout = UIRectEdgeAll;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.automaticallyAdjustsScrollViewInsets = YES;
+        }
+        else
+        {
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+            self.extendedLayoutIncludesOpaqueBars = NO;
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+    }
+}
+/**
+ *  设置默认的Nav titleView样式
+ */
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+//    UILabel *_titleView = [[UILabel alloc] init];
+//    _titleView.textColor = [UIColor lightGrayColor];
+//    
+//    _titleView.backgroundColor = [UIColor clearColor];
+//    _titleView.font = [UIFont systemFontOfSize:19.0f];
+//    _titleView.textAlignment = NSTextAlignmentCenter;
+    
+    CGRect frame = self.titleViewLabel.frame;
+    if (IOS7_OR_LATER) {
+        frame.size.width = 120;
+    }
+    self.titleViewLabel.frame = CGRectMake(frame.origin.x, 5, frame.size.width, 34);
+    self.navigationItem.titleView = self.titleViewLabel;
+    self.titleViewLabel.text = title;
+}
+/**
+ *  自定义的Nav titleView
+ */
+- (UILabel *)titleViewLabel
+{
+    if (!_titleViewLabel) {
+        _titleViewLabel = [[UILabel alloc] init];
+        //默认颜色
+        _titleViewLabel.textColor = [UIColor whiteColor];
+        _titleViewLabel.backgroundColor = [UIColor clearColor];
+        _titleViewLabel.font = [UIFont boldSystemFontOfSize:18.0];
+        _titleViewLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _titleViewLabel;
+}
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    
+    if (IOS7_OR_LATER) {
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    }
+    
+}
+
+- (void)loadView{
+    [super loadView];
+    [self.view setExclusiveTouch:YES];
+}
+
+
+- (UITableView *)tableView{
+    
+    if(!_tableView){
+        
+        _tableView = [UITableView tableView];
+        
+        _tableView.delegate =self;
+        
+        _tableView.dataSource =self;
+        
+        //        if ([_tableView.dataSource respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)])
+        //        {
+        //            if ([_tableView.dataSource isKindOfClass:[UIViewController class]])
+        //            {
+        //                UIViewController *v = (UIViewController *)_tableView.dataSource;
+        //                if ([v.navigationController isKindOfClass:[ScreenShotNavViewController class]])
+        //                {
+        //                    ScreenShotNavViewController *nav = (ScreenShotNavViewController *)v.navigationController;
+        //                    for (UIGestureRecognizer *ges in _tableView.gestureRecognizers) {
+        //                        [nav.panGes requireGestureRecognizerToFail:ges];
+        //                    }
+        //                }
+        //            }
+        //        }
+    }
+    
+    return _tableView;
+}
+
+- (UITableView *)groupTableView{
+    
+    if(!_groupTableView){
+        
+        if (IOS7_OR_LATER) {
+            _groupTableView = [UITableView groupTableView];
+        }else{
+            _groupTableView = [UITableView tableView];
+        }
+        
+        _groupTableView.delegate =self;
+        
+        _groupTableView.dataSource =self;
+        //
+        //        if ([_groupTableView.dataSource respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)])
+        //        {
+        //            if ([_groupTableView.dataSource isKindOfClass:[UIViewController class]])
+        //            {
+        //                UIViewController *v = (UIViewController *)_groupTableView.dataSource;
+        //                if ([v.navigationController isKindOfClass:[ScreenShotNavViewController class]])
+        //                {
+        //                    ScreenShotNavViewController *nav = (ScreenShotNavViewController *)v.navigationController;
+        //                    for (UIGestureRecognizer *ges in _groupTableView.gestureRecognizers) {
+        //                        [nav.panGes requireGestureRecognizerToFail:ges];
+        //                    }
+        //                }
+        //            }
+        //        }
+    }
+    
+    return _groupTableView;
+}
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
+
+
+#pragma mark -
+#pragma mark utils
+
+- (CGRect)visibleBoundsShowNav:(BOOL)hasNav showTabBar:(BOOL)hasTabBar{
+    if (IOS7_OR_LATER && self.isIOS7FullScreenLayout){
+        //全屏布局
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        return frame;
+    }else{
+        CGRect frame = [[UIScreen mainScreen] bounds];
+        frame.size.height -= 20;
+        if (hasNav) {
+            frame.size.height -= 44;
+        }
+        if (hasTabBar) {
+            frame.size.height -= 48;
+        }
+        return frame;
+    }
+}
+
+#pragma mark ----------------------------- ios7 兼容
+
+#ifdef __IPHONE_7_0
+//如果需要更换导航状态栏颜色，重写这个方法
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+- (BOOL)prefersStatusBarHidden{
+    return NO;
+}
+
+#endif
+
+@end
