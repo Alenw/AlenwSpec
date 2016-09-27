@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
 	    AlenwSpecs use to be update common Class,
 	    this is a pravite framework.
 	DESC
-	s.homepage = 'https://github.com/Alenw'
+	s.homepage = 'https://github.com/Alenw/AlenwSpec'
 	s.author = { 'Alenw' => 'lanskyxti@163.com' }
 	s.source = { :git => 'https://github.com/Alenw/AlenwSpec.git',:tag => '1.0.0' }
 	s.platform = :ios,"7.0"
@@ -19,12 +19,13 @@ Pod::Spec.new do |s|
 	ss.source_files = 'AdView/*.{h,m}'
    end
    s.subspec 'Commom' do |ss|
-#	ss.dependency   'SDWebImage','~>3.7.3'
+	ss.dependency   'AlenwSpecs/Tools'
 	ss.source_files = 'Common/*.{h,m}'
 #	ss.dependency   'AlenwSpecs/Tools'
 	ss.ios.framework = 'WebKit'
    end
    s.subspec 'Tools' do |ss|
+	ss.dependency   'AlenwSpecs/Commom'
         ss.source_files = 'Tools/*.{h,m}'
 	ss.vendored_frameworks = 'Tools/*.framework'
 	ss.resource= 'Tools/AwAlertViewlib.bundle'

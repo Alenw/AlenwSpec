@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 #import "SKYBarButtonItem.h"
 
-#if (DEVELOPMENT==0)
+#if (DEVELOPMENT==1)
 #import <UMMobClick/MobClick.h>
 #endif
 @implementation UIViewController (AOP)
@@ -56,7 +56,7 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
 }
 -(void)aop_viewWillAppear:(BOOL)animated{
     [self aop_viewWillAppear:animated];
-#if (DEVELOPMENT==0)
+#if (DEVELOPMENT==1)
     [MobClick beginLogPageView:NSStringFromClass([self class])];
 #endif
 }
@@ -67,7 +67,7 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
 
 -(void)aop_viewWillDisappear:(BOOL)animated{
     [self aop_viewWillDisappear:animated];
-#if (DEVELOPMENT==0)
+#if (DEVELOPMENT==1)
     [MobClick endLogPageView:NSStringFromClass([self class])];
 #endif
 }
