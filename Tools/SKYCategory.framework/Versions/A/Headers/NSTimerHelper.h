@@ -1,9 +1,9 @@
 //
 //  NSTimerHelper.h
-//  SuningEBuy
+//  AlenW
 //
-//  Created by 刘坤 on 12-9-4.
-//  Copyright (c) 2012年 Suning. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

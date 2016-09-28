@@ -1,6 +1,5 @@
 //
 //  AwRollLabel.m
-//  EasyLearn
 //
 //  Created by yelin on 16/6/8.
 //  Copyright © 2016年 Alenw. All rights reserved.

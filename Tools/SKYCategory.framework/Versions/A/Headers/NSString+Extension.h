@@ -1,5 +1,5 @@
 //
-//  NSString+SNFoundation.h
+//  NSString+Extension.h
 //  AlenW
 //
 //  Created by yelin on 16/6/8.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface NSString (SNFoundation)
+@interface NSString (Extension)
 /** 通过字体，最大宽度计算文字范围 */
 -(CGSize)sizeWithFont:(UIFont *)font maxW:(CGFloat)maxW;
 /** 通过字体 计算文字范围 */
@@ -163,6 +163,4 @@
 
 - (NSString *)MD5Hex;
 - (NSData *)hexStringToData;    //从16进制的字符串格式转换为NSData
-
 @end
-

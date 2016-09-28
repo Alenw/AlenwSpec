@@ -1,9 +1,9 @@
 //
 //  UIColor+Sky.h
-//  iPhoneTest
+//  AlenW
 //
-//  Created by soyoung on 15/10/8.
-//  Copyright © 2015年 soyoung. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,9 +1,9 @@
 //
 //  CALayer+Transition.h
-//  Carpenter
+//  AlenW
 //
-//  Created by 冯成林 on 15/4/23.
-//  Copyright (c) 2015年 冯成林. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <QuartzCore/QuartzCore.h>

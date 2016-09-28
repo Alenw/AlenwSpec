@@ -1,9 +1,9 @@
 //
 //  SKYBarButtonItem.m
-//  tripBySoyoung
+//  AlenW
 //
-//  Created by soyoung on 16/1/18.
-//  Copyright © 2016年 soyoung. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import "SKYBarButtonItem.h"

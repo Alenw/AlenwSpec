@@ -1,5 +1,5 @@
 //
-//  NSArray+SNFoundation.h
+//  NSArray+Extension.h
 //  AlenW
 //
 //  Created by yelin on 16/6/8.
@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSArray (SNFoundation)
-
+@interface NSArray (Extension)
 /** NSArray安全取值 */
 - (id)safeObjectAtIndex:(NSUInteger)index;
 /** 深拷贝 */
@@ -40,5 +39,4 @@
 + (id)noRetainingDictionary;
 /** 弱引用 */
 + (id)noRetainingDictionaryWithCapacity:(NSUInteger)capacity;
-
 @end

@@ -1,9 +1,9 @@
 //
 //  UIView+Extension.h
-//  黑马微博2期
+//  AlenW
 //
-//  Created by apple on 14-10-7.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,9 +1,9 @@
 //
 //  UIImage+Extend.h
-//  CDHN
+//  AlenW
 //
-//  Created by muxi on 14-10-14.
-//  Copyright (c) 2014年 muxi. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

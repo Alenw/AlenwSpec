@@ -1,9 +1,8 @@
 //
 //  JYADView.m
-//  ScrollView图片轮播器
 //
-//  Created by nero on 15/3/12.
-//  Copyright (c) 2015年 zzc. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import "JYADView.h"

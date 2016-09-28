@@ -1,9 +1,9 @@
 //
 //  UIImage+FQQ.h
-//  FQQ
+//  AlenW
 //
-//  Created by feiquanqiu on 15/5/18.
-//  Copyright (c) 2015年 feiquanqiu. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

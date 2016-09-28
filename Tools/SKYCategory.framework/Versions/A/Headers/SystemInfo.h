@@ -1,9 +1,9 @@
 //
-//  SNSystemInfo.h
-//  SNFoundation
+//  SystemInfo.h
+//  AlenW
 //
-//  Created by liukun on 14-3-3.
-//  Copyright (c) 2014年 liukun. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -2,8 +2,8 @@
 //  AwNavigationController.m
 //  AlenW
 //
-//  Created by soyoung on 16/2/1.
-//  Copyright © 2016年 AlenW. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #import "AwNavigationController.h"

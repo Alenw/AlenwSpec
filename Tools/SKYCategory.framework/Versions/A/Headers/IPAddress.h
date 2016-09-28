@@ -1,9 +1,9 @@
 //
 //  IPAddress.h
-//  SuningEBuy
+//  AlenW
 //
-//  Created by 刘坤 on 11-12-6.
-//  Copyright (c) 2011年 Suning. All rights reserved.
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
 
 #ifndef SuningEBuy_IPAddress_h

@@ -1,8 +1,8 @@
 //
 //  AwWebViewController.h
-//  EasyLearn
+//  AlenW
 //
-//  Created by yelin on 16/5/19.
+//  Created by yelin on 16/6/8.
 //  Copyright © 2016年 Alenw. All rights reserved.
 //
 
