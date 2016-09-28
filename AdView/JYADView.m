@@ -125,8 +125,8 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-    CGFloat width=self.width;
-    CGFloat height=self.height;
+    CGFloat width=self.frame.size.width;
+    CGFloat height=self.frame.size.height;
     
     self.scrollView.frame=CGRectMake(0, 0, width, height);
     
@@ -138,7 +138,7 @@
     //分页控件
     CGFloat pageWidth = width*0.25;
     CGFloat pageHieght = 20;
-    CGFloat pageX = (_lowFloorView.width - pageWidth)-10;
+    CGFloat pageX = (_lowFloorView.frame.size.width - pageWidth)-10;
     CGFloat pageY = 10;
     _pageControl.frame=CGRectMake(pageX, pageY, pageWidth, pageHieght);
     
