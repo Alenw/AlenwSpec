@@ -1,15 +1,11 @@
 //
 //  UIFont+Extend.h
-//  Wifi
+//  Alenw
 //
-//  Created by muxi on 14/12/1.
-//  Copyright (c) 2014年 muxi. All rights reserved.
-//  字体扩展
+//  Created by yelin on 16/6/8.
+//  Copyright © 2016年 Alenw. All rights reserved.
 //
-//  注：本类的主要目的是为了引入常用的web字体
-//
-//
-//
+
 #import <UIKit/UIKit.h>
 
 @interface UIFont (Extend)
