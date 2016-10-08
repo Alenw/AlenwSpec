@@ -85,4 +85,48 @@
  *  @return 修改后图片
  */
 +(UIImage *) scaleToSizeWithImage:(UIImage *)sourceImage width:(CGFloat)defineWidth;
+
+- (UIImage *) imageWithTintColor:(UIColor *)tintColor;
+
+- (UIImage *) imageWithGradientTintColor:(UIColor *)tintColor;
+@end
+
+
+/*
+ *  水印方向
+ */
+typedef enum {
+    
+    //左上
+    ImageWaterDirectTopLeft=0,
+    
+    //右上
+    ImageWaterDirectTopRight,
+    
+    //左下
+    ImageWaterDirectBottomLeft,
+    
+    //右下
+    ImageWaterDirectBottomRight,
+    
+    //正中
+    ImageWaterDirectCenter
+    
+}ImageWaterDirect;
+
+@interface UIImage (Water)
+
+-(UIImage *)waterWithText:(NSString *)text direction:(ImageWaterDirect)direction fontColor:(UIColor *)fontColor fontPoint:(CGFloat)fontPoint marginXY:(CGPoint)marginXY;
+
+-(UIImage *)waterWithWaterImage:(UIImage *)waterImage direction:(ImageWaterDirect)direction waterSize:(CGSize)waterSize  marginXY:(CGPoint)marginXY;
+
+@end
+/*
+ A category on UIImage that enables you to query the color value of arbitrary
+ pixels of the image.
+ */
+@interface UIImage (ColorAtPixel)
+
+- (UIColor *)colorAtPixel:(CGPoint)point;
+
 @end

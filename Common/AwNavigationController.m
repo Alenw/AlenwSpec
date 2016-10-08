@@ -12,14 +12,12 @@
 
 static NSArray *AuthControllers=nil;
 @interface AwNavigationController ()
-- (BOOL)isLotteryController:(UIViewController *)viewController;
+
 @end
 
 @implementation AwNavigationController
 
-
-+ (void)initialize
-{
++ (void)initialize{
     if (self == [AwNavigationController class]) {
         AuthControllers=[[NSArray alloc] init];
 #pragma mark 这里添加需要验证登陆的控制器
@@ -32,10 +30,7 @@ static NSArray *AuthControllers=nil;
 // 设置导航栏的主题,这里不适应
 +(void)setupNavTheme{
     // 设置导航样式
-    
-    UINavigationBar *navBar = [UINavigationBar appearance
-                               ];
-    
+    UINavigationBar *navBar = [UINavigationBar appearance];
     [[UINavigationBar appearance] setTintColor:[UIColor greenColor]];
     // 1.设置导航条的背景
     
@@ -57,21 +52,16 @@ static NSArray *AuthControllers=nil;
 }
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController{
-    
     return [self initWithRootViewController:rootViewController hasTopRoundCorner:YES];
 }
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController hasTopRoundCorner:(BOOL)isTopRound
-{
+- (id)initWithRootViewController:(UIViewController *)rootViewController hasTopRoundCorner:(BOOL)isTopRound{
     self = [super initWithRootViewController:rootViewController];
     if (self) {
-        
         self.delegate = self;
         
-        if ([rootViewController isKindOfClass:[AwCommonViewController class]])
-        {
-            if (![(AwCommonViewController *)rootViewController hasNav])
-            {
+        if ([rootViewController isKindOfClass:[AwCommonViewController class]]){
+            if (![(AwCommonViewController *)rootViewController hasNav]){
                 [self.navigationBar setHidden:YES];
             }
         }
@@ -79,13 +69,11 @@ static NSArray *AuthControllers=nil;
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:@"26bd7b"]];
 }
-- (UIView *)backgroundView
-{
+- (UIView *)backgroundView{
     if (!_backgroundView) {
         _backgroundView = [UIView new];
         CGRect frame = [[UIScreen mainScreen] bounds];
@@ -98,7 +86,6 @@ static NSArray *AuthControllers=nil;
 
 #pragma mark -
 #pragma mark logon auth
-
 - (BOOL)needLogonAuth:(UIViewController *)viewController{
     BOOL need = NO;
     for (id class in AuthControllers) {
@@ -109,18 +96,6 @@ static NSArray *AuthControllers=nil;
     }
     return need;
 }
-
-- (BOOL)isLotteryController:(UIViewController *)viewController{
-    BOOL isLottery = NO;
-    for (id class in AuthControllers) {
-        if ([[viewController class] isSubclassOfClass:class]) {
-            isLottery = YES;
-            break;
-        }
-    }
-    return isLottery;
-}
-
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
 #pragma mark 这里可以设置每个控制器的导航栏样式
@@ -182,8 +157,7 @@ static NSArray *AuthControllers=nil;
 }
 
 
-- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated
-{
+- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated{
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0) {
         [super presentViewController:modalViewController animated:animated completion:NULL];
     }else{
@@ -191,61 +165,49 @@ static NSArray *AuthControllers=nil;
     }
 }
 
-- (void)setNavBarBackgoundWithColor:(UIColor *)color
-{
-    if (IOS7_OR_LATER)
-    {
+- (void)setNavBarBackgoundWithColor:(UIColor *)color{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+    if (IOS7_OR_LATER){
         //translucent=NO,navigationBar的背景色alph＝1.0,translucent=YES,navigationBar的背景色alph＝0.8
         self.navigationBar.translucent=NO;
         self.navigationBar.barTintColor = color;
 //        [self.navigationBar setBackgroundImage:[UIImage imageWithColor:color size:self.navigationBar.size] forBarMetrics:UIBarMetricsDefaultPrompt];
 //        UIImage *image = [UIImage imageWithColor:color size:self.navigationBar.size];
 //         self.navigationBar.layer.contents = (id)image.CGImage;
-    }
-    else
-    {
+    }else{
         UIImage *image = [UIImage imageWithColor:color size:self.navigationBar.size];
         
-        if ([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-        {
+        if ([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){
             [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-        }
-        else
-        {
+        }else{
             self.navigationBar.layer.contents = (id)image.CGImage;
         }
     }
+#pragma clang diagnostic pop
 }
 
 #pragma mark ----------------------------- navigationController delegate
 
-- (void)setDelegate:(id<UINavigationControllerDelegate>)delegate
-{
+- (void)setDelegate:(id<UINavigationControllerDelegate>)delegate{
     NSAssert(delegate == self, @"AuthNavViewController can only accept self as delegate");
     [super setDelegate:delegate];
 }
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
     //如果在push过程中触发手势滑动返回，会导致导航栏崩溃（从日志中可以看出）。针对这个问题，我们需要在pop过程禁用手势滑动返回功能：
     //    if ([navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
     //        navigationController.interactivePopGestureRecognizer.enabled = YES;
     //    }
     
-    if ([viewController isKindOfClass:[AwCommonViewController class]])
-    {
-        if (![(AwCommonViewController *)viewController hasNav])
-        {
+    if ([viewController isKindOfClass:[AwCommonViewController class]]){
+        if (![(AwCommonViewController *)viewController hasNav]){
             if (!self.navigationBarHidden) [self setNavigationBarHidden:YES animated:animated];
             
-        }
-        else
-        {
+        }else{
             if (self.navigationBarHidden) [self setNavigationBarHidden:NO animated:animated];
         }
-    }
-    else
-    {
+    }else{
         NSLog(@"use CommonViewController as super please");
     }
 }

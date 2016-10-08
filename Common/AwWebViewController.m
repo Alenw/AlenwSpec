@@ -24,8 +24,7 @@
 @end
 
 @implementation AwWebViewController
-- (id)init
-{
+- (id)init{
     self = [super init];
     if (self) {
         self.hasNav = YES;

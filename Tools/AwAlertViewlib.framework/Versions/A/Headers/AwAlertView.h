@@ -204,7 +204,7 @@ typedef enum {
  *  新增NSNotification awAlertViewDismiss 用于移除 AwAlertView,详见Demo b10
  */
 @interface AwAlertView : UIView
-@property (nonatomic, weak) id<AwAlertViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<AwAlertViewDelegate> delegate;
 
 @property (nonatomic, assign) AwAlertViewStyle awStyle;
 

@@ -15,8 +15,32 @@ typedef enum {
 }SKYNavItemStyle;
 
 @interface SKYBarButtonItem : UIBarButtonItem
-
-+(instancetype)initWithSkyTitle:(NSString *)title Style:(SKYNavItemStyle)style target:(id)target action:(SEL)action image:(NSString *)image heighImage:(NSString *)heighImage;
-
+/**
+ *  类方法创建 UIBarButtonItem,有三种风格
+ *
+ *  @param title      title
+ *  @param style      风格标识item样式
+ *  @param target     target
+ *  @param action     action
+ *  @param image      default image
+ *  @param heighImage heighlight image
+ *
+ *  @return UIBarButtonItem
+ */
++(instancetype)initWithItemTitle:(NSString *)title Style:(SKYNavItemStyle)style target:(id)target action:(SEL)action image:(NSString *)image heighImage:(NSString *)heighImage;
+/**
+ *  类方法创建 UIBarButtonItem,有color字段标识title color
+ *
+ *  @param title      title
+ *  @param color      title color
+ *  @param target     target
+ *  @param action     action
+ *  @param image      image
+ *  @param heighImage heighImage
+ *
+ *  @return UIBarButtonItem
+ */
 +(instancetype)initWithItemTitle:(NSString *)title withItemTintColor:(UIColor *)color target:(id)target action:(SEL)action backImage:(NSString *)image heighImage:(NSString *)heighImage;
+
++ (instancetype)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage __attribute__((deprecated("Use initWithItemTitle:Syle:target:action:image:heighImage")));
 @end

@@ -27,8 +27,6 @@
         swizzleMethod(class, @selector(viewWillDisappear:), @selector(aop_viewWillDisappear:));
         swizzleMethod(class, @selector(awakeFromNib), @selector(aop_awakeFromNib));
     });
-    
-   
 }
 void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
     Method originalMethod=class_getInstanceMethod(class, originalSelector);
@@ -47,7 +45,7 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
     [self aop_viewDidLoad];
     NSLog(@"viewDidLoad :%@",NSStringFromClass([self class]));
     if (self != self.navigationController.viewControllers[0]) {
-        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithSkyTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image:@"nav_back_white" heighImage:@"nav_back_white"];
+        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithItemTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image:@"nav_back_white" heighImage:@"nav_back_white"];
         self.navigationItem.leftBarButtonItem=leftItem;
     }
 }
@@ -75,13 +73,5 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
 //    [self aop_viewDidDisappear:animated];
 //#warning 填写附加的代码
 //}
-#ifdef __IPHONE_7_0
-//如果需要更换导航状态栏颜色，重写这个方法
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
-- (BOOL)prefersStatusBarHidden{
-    return NO;
-}
-#endif
+
 @end

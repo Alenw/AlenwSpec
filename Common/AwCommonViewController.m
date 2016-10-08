@@ -8,7 +8,6 @@
 
 #import "AwCommonViewController.h"
 #import <SKYCategory/SKYCategory.h>
-#import "UITableView+Extension.h"
 
 @interface AwCommonViewController ()
 
@@ -16,8 +15,7 @@
 
 @implementation AwCommonViewController
 
-+ (id)controller
-{
++ (id)controller{
     return [[self alloc] init];
 }
 
@@ -51,19 +49,14 @@
     return self;
 }
 
-- (void)setIOS7FullScreenLayout:(BOOL)iOS7FullScreenLayout
-{
+- (void)setIOS7FullScreenLayout:(BOOL)iOS7FullScreenLayout{
     _iOS7FullScreenLayout = iOS7FullScreenLayout;
-    if (IOS7_OR_LATER)
-    {
-        if (_iOS7FullScreenLayout)
-        {
+    if (IOS7_OR_LATER){
+        if (_iOS7FullScreenLayout){
             self.edgesForExtendedLayout = UIRectEdgeAll;
             self.extendedLayoutIncludesOpaqueBars = NO;
             self.automaticallyAdjustsScrollViewInsets = YES;
-        }
-        else
-        {
+        }else{
             self.edgesForExtendedLayout = UIRectEdgeNone;
             self.extendedLayoutIncludesOpaqueBars = NO;
             self.automaticallyAdjustsScrollViewInsets = NO;
@@ -73,8 +66,7 @@
 /**
  *  设置默认的Nav titleView样式
  */
-- (void)setTitle:(NSString *)title
-{
+- (void)setTitle:(NSString *)title{
     [super setTitle:title];
 //    UILabel *_titleView = [[UILabel alloc] init];
 //    _titleView.textColor = [UIColor lightGrayColor];
@@ -94,8 +86,7 @@
 /**
  *  自定义的Nav titleView
  */
-- (UILabel *)titleViewLabel
-{
+- (UILabel *)titleViewLabel{
     if (!_titleViewLabel) {
         _titleViewLabel = [[UILabel alloc] init];
         //默认颜色
@@ -109,13 +100,11 @@
 
 
 - (void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:animated];
     
     if (IOS7_OR_LATER) {
         [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     }
-    
 }
 
 - (void)loadView{
@@ -156,13 +145,14 @@
 - (UITableView *)groupTableView{
     
     if(!_groupTableView){
-        
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
         if (IOS7_OR_LATER) {
             _groupTableView = [UITableView groupTableView];
         }else{
             _groupTableView = [UITableView tableView];
         }
-        
+#pragma clang diagnostic pop
         _groupTableView.delegate =self;
         
         _groupTableView.dataSource =self;
@@ -187,19 +177,16 @@
 }
 
 
-
+#pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return nil;
 }
 

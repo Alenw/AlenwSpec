@@ -73,32 +73,25 @@ CGFloat demoRGInnerRadius(CGRect bounds);
  */
 -(void)addSingleBorder:(UIViewBorderDirect)direct color:(UIColor *)color width:(CGFloat)width;
 
-
 /**
  *  自动从xib创建视图
  */
 +(instancetype)viewFromXIB;
-
 
 /**
  *  添加一组子view：
  */
 -(void)addSubviewsWithArray:(NSArray *)subViews;
 
-
 /**
  *  添加边框:四边
  */
 -(void)setBorder:(UIColor *)color width:(CGFloat)width;
 
-
-
 /**
  *  调试
  */
 -(void)debug:(UIColor *)color width:(CGFloat)width;
-
-
 
 /**
  *  批量移除视图
@@ -106,7 +99,6 @@ CGFloat demoRGInnerRadius(CGRect bounds);
  *  @param views 需要移除的视图数组
  */
 +(void)removeViews:(NSArray *)views;
-
 
 // DRAW GRADIENT
 + (void) drawLinearGradientInRect:(CGRect)rect colors:(CGFloat[])colors;
