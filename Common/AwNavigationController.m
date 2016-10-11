@@ -71,6 +71,7 @@ static NSArray *AuthControllers=nil;
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+#pragma mark - 设置导航栏颜色值
     [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:@"26bd7b"]];
 }
 - (UIView *)backgroundView{

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector);
 @interface UIViewController (AOP)
 
 @end

@@ -4,11 +4,11 @@
 //
 //  Created by yelin on 16/5/23.
 //  Copyright © 2016年 AlenW. All rights reserved.
-// 2016-10-08
+// 2016-10-11
 
 #import <UIKit/UIKit.h>
 
-#define AwDebug 1
+#define AwDebug 0
 /** AwTipView 显示样式 */
 typedef enum {
     AwTipViewStyleNone=0,//不显示图片
