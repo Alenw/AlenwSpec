@@ -21,6 +21,7 @@ Pod::Spec.new do |s|
    s.subspec 'AdView' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
 	ss.dependency   'AlenwSpecs/Tools'
+	ss.dependency   'SDWebImage','~> 3.7.3'
 	ss.source_files = 'AdView/*.{h,m}'
    end
    s.subspec 'Common' do |ss|
