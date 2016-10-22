@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
 	#s.pod_target_xcconfig = { 'OTHER_LDFAGS' => '-all_load'}
 	#s.preserve_paths = '*.framework'	
 	#s.weak_framework = 'WebKit'
+	#s.dependency   'SDWebImage','~> 3.7.3'
    s.subspec 'AdView' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
 	ss.dependency   'AlenwSpecs/Tools'
