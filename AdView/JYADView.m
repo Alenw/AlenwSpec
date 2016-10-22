@@ -6,7 +6,7 @@
 //
 
 #import "JYADView.h"
-#import "UIImageView+WebCache.h" //依赖SDWebImage 库
+//#import "UIImageView+WebCache.h" //依赖SDWebImage 库
 #import <SKYCategory/SKYCategory.h>
 
 #define c_width (self.bounds.size.width) //两张图片之前有10点的间隔

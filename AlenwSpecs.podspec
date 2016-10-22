@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name = 'AlenwSpecs'
-	s.version = '1.0.3'
+	s.version = '1.0.4'
 	s.license = 'MIT'
 	s.summary = 'AlenwSpecs use to be update common Class'
 	s.description = <<-DESC
@@ -12,17 +12,9 @@ Pod::Spec.new do |s|
 	s.source = { :git => 'https://github.com/Alenw/AlenwSpec.git',:tag => s.version.to_s }
 	s.platform = :ios,"7.0"
 	s.requires_arc = true
-	#s.source_files = '*.{h,m}'
-	#s.vendored_frameworks = '*.framework'	
-	#s.resource= 'AwAlertViewlib.bundle'
-	#s.pod_target_xcconfig = { 'OTHER_LDFAGS' => '-all_load'}
-	#s.preserve_paths = '*.framework'	
-	#s.weak_framework = 'WebKit'
-	#s.dependency   'SDWebImage','~> 3.7.3'
    s.subspec 'AdView' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
 	ss.dependency   'AlenwSpecs/Tools'
-#	ss.dependency   'SDWebImage','~> 3.7.3'
 	ss.source_files = 'AdView/*.{h,m}'
    end
    s.subspec 'Common' do |ss|
