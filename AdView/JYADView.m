@@ -239,10 +239,13 @@
         [self.scrollView addSubview:imageView];
 #pragma mark 加载数据在这里,图片URL位置,可以自动修改选择加载的路径
         //          设置数据
-        imageView.image = _curImageArray[i];
-//        NSString *imageUrl = _curImageArray[i];
-//        [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-        
+        id object=_curImageArray[i];
+        if ([object isKindOfClass:[UIImage class]]) {
+            imageView.image = _curImageArray[i];
+        }else{
+            NSString *imageUrl = _curImageArray[i];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        }
         
         //tap手势
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImage:)];

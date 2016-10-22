@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UIBarButtonItem *item1;
 @property (nonatomic, strong) UIBarButtonItem *item2;
 @property (nonatomic, weak) UIButton *closeBtn;
+@property (nonatomic, assign) BOOL authenticated;
+@property (nonatomic, strong) NSURLConnection *urlConnection;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
 @property (nonatomic, weak) WKWebView *webView;
 #else
@@ -150,6 +152,56 @@ static BOOL isNetworkPath (NSString *path){
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [AwTipView hideForView:self.webView Animated:YES];
 }
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
+    
+    if (!_authenticated) {
+        
+        _authenticated = NO;
+        
+        _urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        
+        [_urlConnection start];
+        
+        return NO;
+    }
+    return YES;
+}
+#pragma mark === connectDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
+    NSLog(@"验证签名证书");
+    
+    if ([challenge previousFailureCount] == 0)
+    {
+        _authenticated = YES;
+        
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        
+        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+        
+    } else
+    {
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
+    NSLog(@"WebController received response via NSURLConnection");
+    
+    // remake a webview call now that authentication has passed ok.
+    
+    _authenticated = YES;
+    [self.webView loadRequest:connection.currentRequest];
+    
+    // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
+    [_urlConnection cancel];
+}
+
+// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace{
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
 
 #pragma mark - WKWebView Action
 
@@ -176,7 +228,13 @@ static BOOL isNetworkPath (NSString *path){
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation{
     [AwTipView hideForView:self.webView Animated:YES];
 }
-
+// 取消https 验证
+- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
+    NSURLCredential *credential = [[NSURLCredential alloc] initWithUser:@"bob"
+                                                               password:@"pass"
+                                                            persistence:NSURLCredentialPersistenceForSession];
+    completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
