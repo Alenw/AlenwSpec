@@ -10,6 +10,10 @@
 
 @interface AwButton : UIButton
 
+/**
+ *  这个Button 限制了点击的区域，如果设置了背景图片，背景图片有颜色的点响应事件，这样就可以创建不规则的Button
+ */
+
 @end
 
 @interface UIButton (countButton)
