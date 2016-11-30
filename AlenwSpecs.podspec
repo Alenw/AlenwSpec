@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name = 'AlenwSpecs'
-	s.version = '1.0.5'
+	s.version = '1.0.6'
 	s.license = 'MIT'
 	s.summary = 'AlenwSpecs use to be update common Class'
 	s.description = <<-DESC
@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
 	#ss.weak_framework = 'SKYCategory.framework'
 	ss.dependency   'AlenwSpecs/Tools'
 	ss.source_files = 'AdView/*.{h,m}'
+	ss.dependency   'SDWebImage', '~> 3.7.3'
    end
    s.subspec 'Common' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
