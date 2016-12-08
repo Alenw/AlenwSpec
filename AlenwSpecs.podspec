@@ -10,13 +10,14 @@ Pod::Spec.new do |s|
 	s.homepage = 'https://github.com/Alenw/AlenwSpec'
 	s.author = { 'Alenw' => 'lanskyxti@163.com' }
 	s.source = { :git => 'https://github.com/Alenw/AlenwSpec.git',:tag => s.version.to_s }
-	s.platform = :ios,"7.0"
+	s.platform = :ios,'7.0'
 	s.requires_arc = true
+	s.dependency   'SDWebImage', '~> 3.7.3'
    s.subspec 'AdView' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
 	ss.dependency   'AlenwSpecs/Tools'
 	ss.source_files = 'AdView/*.{h,m}'
-	ss.dependency   'SDWebImage', '~> 3.7.3'
+#	ss.dependency   'SDWebImage', '~> 3.7.3'
    end
    s.subspec 'Common' do |ss|
 	#ss.weak_framework = 'SKYCategory.framework'
