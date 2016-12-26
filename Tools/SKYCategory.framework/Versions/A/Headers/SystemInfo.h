@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define IOS10_OR_LATER  (__IPHONE_OS_VERSION_MAX_ALLOWED >= 100000)
-#define IOS9_OR_LATER   (__IPHONE_OS_VERSION_MAX_ALLOWED >= 90000)
-#define IOS8_OR_LATER	(__IPHONE_OS_VERSION_MAX_ALLOWED >= 80000)
-#define IOS7_OR_LATER	(__IPHONE_OS_VERSION_MAX_ALLOWED >= 70000)
+#define IOS10_OR_LATER  ([[[UIDevice currentDevice] systemVersion] floatValue]>=10.0)
+#define IOS9_OR_LATER   ([[[UIDevice currentDevice] systemVersion] floatValue]>=9.0)
+#define IOS8_OR_LATER	([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)
+#define IOS7_OR_LATER	([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0)
 
 #define IS_IPAD         (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
-#define IS_IPHONE_5     [SNSystemInfo is_iPhone_5];
+#define IS_IPHONE_5     [SystemInfo is_iPhone_5];
 
 @interface SystemInfo : NSObject
 

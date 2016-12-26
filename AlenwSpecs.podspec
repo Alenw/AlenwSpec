@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name = 'AlenwSpecs'
-	s.version = '1.0.8'
+	s.version = '1.0.9'
 	s.license = 'MIT'
 	s.summary = 'AlenwSpecs use to be update common Class'
 	s.description = <<-DESC
