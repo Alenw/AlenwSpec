@@ -18,4 +18,8 @@
 @property (nonatomic, assign) BOOL notNeedBackItem;
 /** 返回按钮颜色 */
 @property (nonatomic, strong) UIColor *itemTinColor;
+/** default NO ,iOS8.0以下使用UIWebView ,其他使用WKWebView;
+ if YES,全部使用UIWebView
+ */
+@property (nonatomic, assign) BOOL forceFit;
 @end

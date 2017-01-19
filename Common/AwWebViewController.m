@@ -18,11 +18,8 @@
 @property (nonatomic, weak) UIButton *closeBtn;
 @property (nonatomic, assign) BOOL authenticated;
 @property (nonatomic, strong) NSURLConnection *urlConnection;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-@property (nonatomic, weak) WKWebView *webView;
-#else
-@property (nonatomic, weak) UIWebView *webView;
-#endif
+
+@property (nonatomic, weak) UIView *webView;
 @end
 
 @implementation AwWebViewController
@@ -72,20 +69,61 @@
         self.closeBtn=closeBtn;
         
     }
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-    WKWebView *webView=[[WKWebView alloc]init];
-    webView.navigationDelegate=self;
-    [self.view addSubview:webView];
-    self.webView=webView;
-#else
-    UIWebView *sywebview=[[UIWebView alloc]init];
-    sywebview.delegate=self;
-    sywebview.backgroundColor=[UIColor whiteColor];
-    [self.view addSubview:sywebview];
-    self.webView=sywebview;
-    sywebview.scalesPageToFit=YES;
-#endif
+
+    NSURL *url=nil;
+    if (![self.urlstr hasPrefix:@"https:"]) {
+        _authenticated=YES;
+    }
     
+    if (isNetworkPath(self.urlstr)) {
+        self.urlstr = [self.urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        url=[NSURL URLWithString:self.urlstr];
+        if (IOS8_OR_LATER && !self.forceFit) {
+            WKWebView *webView=[[WKWebView alloc]init];
+            webView.navigationDelegate=self;
+            [self.view addSubview:webView];
+            self.webView=webView;
+        }else{
+            goto webViewAction;
+            
+        }
+    }else{
+        
+        if (IOS8_OR_LATER && !self.forceFit) {
+            WKWebView *webView=[[WKWebView alloc]init];
+            webView.navigationDelegate=self;
+            [self.view addSubview:webView];
+            self.webView=webView;
+        }else{
+        webViewAction:{}
+            UIWebView *sywebview=[[UIWebView alloc]init];
+            sywebview.delegate=self;
+            sywebview.backgroundColor=[UIColor whiteColor];
+            [self.view addSubview:sywebview];
+            self.webView=sywebview;
+            sywebview.scalesPageToFit=YES;
+            if (isNetworkPath(self.urlstr)) {
+                goto outofMethod;
+            }
+        }
+        
+        url=[NSURL fileURLWithPath:self.urlstr];
+        if ([url.pathExtension isEqualToString:@"txt"]) {
+            NSData *txtData = [NSData dataWithContentsOfFile:self.urlstr];
+            
+            if (IOS8_OR_LATER && !self.forceFit) {
+                if (IOS9_OR_LATER) {
+                    [(WKWebView *)self.webView loadData:txtData MIMEType:@"text/txt" characterEncodingName:@"utf-8" baseURL:url];
+                }else{
+                    [(WKWebView *)self.webView loadHTMLString:[NSString stringWithContentsOfFile:self.urlstr encoding:NSUTF8StringEncoding error:nil] baseURL:url];
+                }
+            }else{
+                [(UIWebView *)self.webView loadData:txtData MIMEType:@"text/txt" textEncodingName:@"utf-8" baseURL:url];
+            }
+            return;
+        }
+    }
+outofMethod:{}
     NSString *HL=@"|-0-[sywebview]-0-|";
     NSString *VL=@"V:|-0-[sywebview]-0-|";
     self.webView.translatesAutoresizingMaskIntoConstraints=NO;
@@ -93,29 +131,22 @@
     NSArray *vvl=[NSLayoutConstraint constraintsWithVisualFormat:VL options:NSLayoutFormatAlignAllLeft metrics:nil views:@{@"sywebview":self.webView}];
     [self.view addConstraints:vhl];
     [self.view addConstraints:vvl];
-
-    NSURL *url=nil;
-    if (isNetworkPath(self.urlstr)) {
-        url=[NSURL URLWithString:self.urlstr];
-    }else{
-        url=[NSURL fileURLWithPath:self.urlstr];
-        if ([url.pathExtension isEqualToString:@"txt"]) {
-            NSData *txtData = [NSData dataWithContentsOfFile:self.urlstr];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
-            [self.webView loadData:txtData MIMEType:@"text/txt" characterEncodingName:@"utf-8" baseURL:url];
-#else
-            [self.webView loadHTMLString:[NSString stringWithContentsOfFile:self.urlstr encoding:NSUTF8StringEncoding error:nil] baseURL:url];
-#endif
-#else
-            [self.webView loadData:txtData MIMEType:@"text/txt" textEncodingName:@"utf-8" baseURL:url];
-#endif
-            return;
-        }
-    }
-    NSURLRequest *request=[NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:request];
     
+    
+    //        NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSDictionary *headers = @{
+                              @"Cookie":@"JSESSIONID=00F0BC8B896EB1129EE7E18FFA3469A2"
+                              };
+    [request setHTTPShouldHandleCookies:YES];
+    [request setAllHTTPHeaderFields:headers];
+    
+    if (IOS8_OR_LATER && !self.forceFit) {
+        [(WKWebView *)self.webView loadRequest:request];
+    }else {
+        [(UIWebView *)self.webView loadRequest:request];
+    }
     
 }
 static BOOL isNetworkPath (NSString *path){
@@ -126,10 +157,20 @@ static BOOL isNetworkPath (NSString *path){
     }
 }
 -(void)back{
-    if (self.webView.canGoBack) {
-        [self.webView goBack];
-        return;
+    if ([self.webView isKindOfClass:[WKWebView class]]) {
+        WKWebView *view=(WKWebView *)self.webView;
+        if (view.canGoBack) {
+            [view goBack];
+            return;
+        }
+    }else{
+        UIWebView *view=(UIWebView *)self.webView;
+        if (view.canGoBack) {
+            [view goBack];
+            return;
+        }
     }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)cleanAll{
@@ -137,11 +178,11 @@ static BOOL isNetworkPath (NSString *path){
 }
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    [AwTipView showMessage:@"正在加载..." toView:self.webView];
+//    [AwTipView showMessage:@"正在加载..." toView:webView];
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [AwTipView hideForView:self.webView Animated:YES];
-    if (self.webView.canGoBack) {
+//    [AwTipView hideForView:webView Animated:YES];
+    if (webView.canGoBack) {
         [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
         self.closeBtn.enabled=YES;
     }else{
@@ -150,11 +191,34 @@ static BOOL isNetworkPath (NSString *path){
     }
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    [AwTipView hideForView:self.webView Animated:YES];
+//    [AwTipView hideForView:webView Animated:YES];
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
-    
+    //    NSHTTPCookieStorage *sharedHTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //    　　NSArray *cookies = [sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.urlstr]];
+    //    　　NSEnumerator *enumerator = [cookies objectEnumerator];
+    //    　　NSHTTPCookie *cookie;
+    //    　　while (cookie = [enumerator nextObject]) {
+    //        　　NSLog(@"COOKIE{name: %@, value: %@}", [cookie name], [cookie value]);
+    //        　　}
+    /*
+     {
+     Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*;q=0.8";
+     "User-Agent" = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36";
+     }
+     {
+     Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*;q=0.8";
+     Referer = "http://gz.gdltax.gov.cn/";
+     "User-Agent" = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36";
+     }
+     
+     {
+     Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*;q=0.8";
+     Referer = "http://gz.gdltax.gov.cn/ekp/new/admin/document/document_list_of_channel_ds_search.jsp?SiteId=8&OrderField=crtime&OrderType=desc&trandom=0.28936713584698737";
+     "User-Agent" = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36";
+     }
+     */
     if (!_authenticated) {
         
         _authenticated = NO;
@@ -192,7 +256,7 @@ static BOOL isNetworkPath (NSString *path){
     // remake a webview call now that authentication has passed ok.
     
     _authenticated = YES;
-    [self.webView loadRequest:connection.currentRequest];
+    [(UIWebView *)self.webView loadRequest:connection.currentRequest];
     
     // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
     [_urlConnection cancel];
@@ -207,7 +271,7 @@ static BOOL isNetworkPath (NSString *path){
 
 // 页面开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
-    [AwTipView showMessage:@"正在加载..." toView:self.webView];
+//    [AwTipView showMessage:@"正在加载..." toView:webView];
 }
 // 当内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation{
@@ -215,8 +279,8 @@ static BOOL isNetworkPath (NSString *path){
 }
 // 页面加载完成之后调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
-    [AwTipView hideForView:self.webView Animated:YES];
-    if (self.webView.canGoBack) {
+//    [AwTipView hideForView:webView Animated:YES];
+    if (webView.canGoBack) {
         [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
         self.closeBtn.enabled=YES;
     }else{
@@ -226,7 +290,7 @@ static BOOL isNetworkPath (NSString *path){
 }
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation{
-    [AwTipView hideForView:self.webView Animated:YES];
+//    [AwTipView hideForView:webView Animated:YES];
 }
 // 取消https 验证
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
