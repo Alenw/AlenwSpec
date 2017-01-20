@@ -133,14 +133,14 @@ outofMethod:{}
     [self.view addConstraints:vvl];
     
     
-    //        NSURLRequest *request=[NSURLRequest requestWithURL:url];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    NSDictionary *headers = @{
-                              @"Cookie":@"JSESSIONID=00F0BC8B896EB1129EE7E18FFA3469A2"
-                              };
-    [request setHTTPShouldHandleCookies:YES];
-    [request setAllHTTPHeaderFields:headers];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+//    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    NSDictionary *headers = @{
+//                              @"Cookie":@"JSESSIONID=00F0BC8B896EB1129EE7E18FFA3469A2"
+//                              };
+//    [request setHTTPShouldHandleCookies:YES];
+//    [request setAllHTTPHeaderFields:headers];
     
     if (IOS8_OR_LATER && !self.forceFit) {
         [(WKWebView *)self.webView loadRequest:request];
