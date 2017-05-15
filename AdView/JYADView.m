@@ -25,8 +25,7 @@
 
 @implementation JYADView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
         
@@ -40,7 +39,7 @@
         self.scrollView.delegate = self;
         [self addSubview:self.scrollView];
         
-        /*
+        
         _lowFloorView=[[UIView alloc]init];
         [self addSubview:_lowFloorView];
         
@@ -56,7 +55,7 @@
         _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
         _pageControl.pageIndicatorTintColor = [UIColor grayColor];
         [_lowFloorView addSubview:_pageControl];
-         */
+        
         
         //初始化数据，当前图片默认位置是0
         _curImageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -80,7 +79,7 @@
         self.scrollView.delegate = self;
         [self addSubview:self.scrollView];
         
-        /*
+        
         _lowFloorView=[[UIView alloc]init];
         [self addSubview:_lowFloorView];
         
@@ -96,7 +95,7 @@
         _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
         _pageControl.pageIndicatorTintColor = [UIColor grayColor];
         [_lowFloorView addSubview:_pageControl];
-        */
+        
         
         //初始化数据，当前图片默认位置是0
         _curImageArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -130,7 +129,7 @@
     
     _lowFloorView.frame=CGRectMake(0, height-40, width, 40);
     
-//    CGFloat pageWidth = width*0.25;
+    //    CGFloat pageWidth = width*0.25;
     _nameLabel.frame=CGRectMake(10, 0, width-120, 40);
     
     //分页控件
@@ -173,8 +172,7 @@
 }
 
 //停止滚动的时候回调
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     //设置scrollView偏移位置
     [scrollView setContentOffset:CGPointMake(c_width, 0) animated:YES];
 }
@@ -194,9 +192,9 @@
 }
 
 
-- (void)setImageArray:(NSMutableArray *)imageArray
-{
+- (void)setImageArray:(NSMutableArray *)imageArray{
     _imageArray = imageArray;
+    _curPage=0;
     //设置分页控件的总页数
     _pageControl.numberOfPages = imageArray.count>5?5:imageArray.count;
     //刷新图片
@@ -210,13 +208,11 @@
     
     //判断图片长度是否大于1，如果一张图片不开启定时器
     if ([imageArray count] > 1) {
-
         [self addTimer];
     }
 }
 
-- (void)reloadData
-{
+- (void)reloadData{
     //设置页数
     _pageControl.currentPage = _curPage;
     //根据当前页取出图片
@@ -252,8 +248,7 @@
     }
 }
 
-- (void)getDisplayImagesWithCurpage:(NSInteger)page
-{
+- (void)getDisplayImagesWithCurpage:(NSInteger)page{
     //取出开头和末尾图片在图片数组里的下标
     NSInteger front = page - 1;
     NSInteger last = page + 1;
@@ -323,8 +318,7 @@
     }
 }
 #pragma mark 点击事件响应处理
-- (void)tapImage:(UITapGestureRecognizer *)tap
-{
+- (void)tapImage:(UITapGestureRecognizer *)tap{
     [self.delegate ADViewDidSelected:self atIndex:_curPage];
     if (_adDidClick) {
         NSLog(@"%ld",(long)_curPage);

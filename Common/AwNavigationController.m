@@ -21,34 +21,8 @@ static NSArray *AuthControllers=nil;
     if (self == [AwNavigationController class]) {
         AuthControllers=[[NSArray alloc] init];
 #pragma mark 这里添加需要验证登陆的控制器
-//        AuthControllers = [[NSArray alloc]  initWithObjects:[ServiceTrackListViewController class]];
-        
-//        [AwNavigationController setupNavTheme];
+        //        AuthControllers = [[NSArray alloc]  initWithObjects:[ServiceTrackListViewController class]];
     }
-}
-
-// 设置导航栏的主题,这里不适应
-+(void)setupNavTheme{
-    // 设置导航样式
-    UINavigationBar *navBar = [UINavigationBar appearance];
-    [[UINavigationBar appearance] setTintColor:[UIColor greenColor]];
-    // 1.设置导航条的背景
-    
-    // 高度不会拉伸，但是宽度会拉伸
-    //  [navBar setBackgroundImage:[UIImage imageNamed:@"topbarbg_ios7"] forBarMetrics:UIBarMetricsDefault];
-    
-    // 2.设置栏的字体
-    NSMutableDictionary *att = [NSMutableDictionary dictionary];
-    att[NSForegroundColorAttributeName] = [UIColor colorWithRed:1.000 green:0.485 blue:0.568 alpha:1.000];
-    att[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-    
-    [navBar setTitleTextAttributes:att];
-    
-    // 设置状态栏的样式
-    // xcode5以上，创建的项目，默认的话，这个状态栏的样式由控制器决定
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
-    
 }
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController{
@@ -72,7 +46,15 @@ static NSArray *AuthControllers=nil;
 - (void)viewDidLoad{
     [super viewDidLoad];
 #pragma mark - 设置导航栏颜色值
-    [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:@"26bd7b"]];
+    NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
+    if (IsStrEmpty(colorstring))colorstring=@"ffffff";
+    [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:colorstring]];
+    [MTNotificationCenter addObserver:self selector:@selector(themeAction:) name:@"ThemeColorNav" object:nil];
+}
+-(void)themeAction:(NSNotification *)notification{
+    NSString *colorstring=notification.object;
+    
+    [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:colorstring]];
 }
 - (UIView *)backgroundView{
     if (!_backgroundView) {
@@ -105,31 +87,31 @@ static NSArray *AuthControllers=nil;
     viewController.navigationItem.backBarButtonItem = returnButtonItem;
     if (self.viewControllers.count > 0) { // 这时push进来的控制器viewController，不是第一个子控制器（不是根控制器）
         /* 自动显示和隐藏tabbar */
-          viewController.hidesBottomBarWhenPushed = YES;
+        viewController.hidesBottomBarWhenPushed = YES;
         
         /* 设置导航栏上面的内容 */
         
     }
     if ([self needLogonAuth:viewController]) {
 #pragma mark 未配置需要登录的控制器
-/*
-//        SYAccount *account=[SKYAccountTool account];
-//        if (IsStrEmpty(account.flag) || [account.flag isEqualToString:@"0"])
-//        {
-//            NSLog(@"needLogonAuth \n");
-//            SYLoginViewController *loginVC = [[SYLoginViewController alloc] init];
-//            loginVC.nextController = viewController;
-//            loginVC.nextNavigationController = self;
-//            loginVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//            
-//            AwNavigationController *navController = [[AwNavigationController alloc] initWithRootViewController:loginVC];
-//            //            TT_RELEASE_SAFELY(loginVC);
-//            
-//            [self presentViewController:navController animated:YES completion:nil];
-//            //            TT_RELEASE_SAFELY(navController);
-//            
-//            return;
-//        }*/
+        /*
+         //        SYAccount *account=[SKYAccountTool account];
+         //        if (IsStrEmpty(account.flag) || [account.flag isEqualToString:@"0"])
+         //        {
+         //            AWLog(@"needLogonAuth \n");
+         //            SYLoginViewController *loginVC = [[SYLoginViewController alloc] init];
+         //            loginVC.nextController = viewController;
+         //            loginVC.nextNavigationController = self;
+         //            loginVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+         //
+         //            AwNavigationController *navController = [[AwNavigationController alloc] initWithRootViewController:loginVC];
+         //            //            TT_RELEASE_SAFELY(loginVC);
+         //
+         //            [self presentViewController:navController animated:YES completion:nil];
+         //            //            TT_RELEASE_SAFELY(navController);
+         //
+         //            return;
+         //        }*/
         
         if ([self.viewControllers containsObject:viewController]) {
             //[viewController viewWillAppear:animated];
@@ -153,7 +135,7 @@ static NSArray *AuthControllers=nil;
     
     [super dismissModalViewControllerAnimated:animated];
     
-    NSLog(@"dismissModalViewControllerAnimated \n");
+    AWLog(@"dismissModalViewControllerAnimated \n");
     
 }
 
@@ -173,9 +155,9 @@ static NSArray *AuthControllers=nil;
         //translucent=NO,navigationBar的背景色alph＝1.0,translucent=YES,navigationBar的背景色alph＝0.8
         self.navigationBar.translucent=NO;
         self.navigationBar.barTintColor = color;
-//        [self.navigationBar setBackgroundImage:[UIImage imageWithColor:color size:self.navigationBar.size] forBarMetrics:UIBarMetricsDefaultPrompt];
-//        UIImage *image = [UIImage imageWithColor:color size:self.navigationBar.size];
-//         self.navigationBar.layer.contents = (id)image.CGImage;
+        //        [self.navigationBar setBackgroundImage:[UIImage imageWithColor:color size:self.navigationBar.size] forBarMetrics:UIBarMetricsDefaultPrompt];
+        //        UIImage *image = [UIImage imageWithColor:color size:self.navigationBar.size];
+        //         self.navigationBar.layer.contents = (id)image.CGImage;
     }else{
         UIImage *image = [UIImage imageWithColor:color size:self.navigationBar.size];
         
@@ -209,7 +191,7 @@ static NSArray *AuthControllers=nil;
             if (self.navigationBarHidden) [self setNavigationBarHidden:NO animated:animated];
         }
     }else{
-        NSLog(@"use CommonViewController as super please");
+        AWLog(@"use CommonViewController as super please");
     }
 }
 #pragma mark -新增代码，用于滑动动画设计的

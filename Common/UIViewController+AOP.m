@@ -9,10 +9,12 @@
 #import "UIViewController+AOP.h"
 #import <objc/runtime.h>
 #import "SKYBarButtonItem.h"
+#import <SKYCategory/CoreArchive.h>
 
 #if (DEVELOPMENT==1)
 #import <UMMobClick/MobClick.h>
 #endif
+
 @implementation UIViewController (AOP)
 
 +(void)load{
@@ -22,10 +24,12 @@
         swizzleMethod(class,@selector(viewDidLoad),@selector(aop_viewDidLoad));
 #pragma 界面即将显示
         swizzleMethod(class, @selector(viewWillAppear:), @selector(aop_viewWillAppear:));
-//        swizzleMethod(class, @selector(viewDidAppear:), @selector(aop_viewDidAppear:));
+        //        swizzleMethod(class, @selector(viewDidAppear:), @selector(aop_viewDidAppear:));
 #pragma 界面即将消失
         swizzleMethod(class, @selector(viewWillDisappear:), @selector(aop_viewWillDisappear:));
         swizzleMethod(class, @selector(awakeFromNib), @selector(aop_awakeFromNib));
+        
+        swizzleMethod(class, @selector(viewDidAppear:), @selector(aop_viewDidAppear:));
     });
 }
 void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
@@ -44,8 +48,11 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
 -(void)aop_viewDidLoad{
     [self aop_viewDidLoad];
     NSLog(@"viewDidLoad :%@",NSStringFromClass([self class]));
+    NSLog(@"viewDidLoad :-------");
     if (self != self.navigationController.viewControllers[0]) {
-        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithItemTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image:@"nav_back_white" heighImage:@"nav_back_white"];
+        NSString *string=[CoreArchive strForKey:@"ThemeColorString"];
+        
+        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithItemTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image: [string isEqualToString:@"ffffff"] ? @"nav_back":@"nav_back_white" heighImage:[string isEqualToString:@"ffffff"] ? @"nav_back" :@"nav_back_white"];
         self.navigationItem.leftBarButtonItem=leftItem;
     }
 }
@@ -58,10 +65,21 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
     [MobClick beginLogPageView:NSStringFromClass([self class])];
 #endif
 }
-//-(void)aop_viewDidAppear:(BOOL)animated{
-//    [self aop_viewDidAppear:animated];
-//#warning 填写附加的代码
-//}
+-(void)aop_viewDidAppear:(BOOL)animated{
+    [self aop_viewDidAppear:animated];
+#warning 填写附加的代码
+    
+    //    UIView *nav_back = [self.navigationController.navigationBar.subviews objectAtIndex:2];
+    //    if ([nav_back isKindOfClass:NSClassFromString(@"UINavigationItemButtonView")]) {
+    //        nav_back.userInteractionEnabled = YES;
+    //        // UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backAction:)];
+    //        // [nav_back addGestureRecognizer:tap];
+    //        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    //        backButton.frame = CGRectMake(0, 0, 20, 21);
+    //        [backButton addTarget:self action:@selector(customNavBackButtonMethod) forControlEvents:UIControlEventTouchUpInside];
+    //        [nav_back addSubview:backButton];
+    //    }
+}
 
 -(void)aop_viewWillDisappear:(BOOL)animated{
     [self aop_viewWillDisappear:animated];

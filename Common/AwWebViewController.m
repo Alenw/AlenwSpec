@@ -44,16 +44,26 @@
     if (!self.itemTinColor) {
         self.itemTinColor=[UIColor whiteColor];
     }
-
+    
     if (self.navigationController && !self.notNeedBackItem) {
+        NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
+        if([colorstring isEqualToString:@"ffffff"]){
+            self.itemTinColor=[UIColor colorWithHexString:@"656565"];
+        }
+        NSString *appdstring=@"";
+        if (![colorstring isEqualToString:@"ffffff"]) {
+            appdstring=@"_white";
+            self.itemTinColor=[UIColor whiteColor];
+        }
+        
         UIView *itemView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 84, 44)];
         
         UIButton *backBtn=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 48, 44)];
-        [backBtn setImage:[UIImage imageNamed:@"nav_back_white"] forState:UIControlStateNormal];
+        [backBtn setImage:[UIImage imageNamed:[@"nav_back" stringByAppendingString:appdstring]] forState:UIControlStateNormal];
         [backBtn setTitle:@"返回" forState:UIControlStateNormal];
         [backBtn setTitleColor:self.itemTinColor forState:UIControlStateNormal];
-        backBtn.imageEdgeInsets=UIEdgeInsetsMake(0, -15, 0, 0);
-        backBtn.titleEdgeInsets=UIEdgeInsetsMake(0, -15, 0, 0);
+        backBtn.imageEdgeInsets=UIEdgeInsetsMake(0, 0, 0, 0);
+        backBtn.titleEdgeInsets=UIEdgeInsetsMake(0, -13, 0, 0);
         backBtn.titleLabel.font=[UIFont systemFontOfSize:14.0];
         [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [itemView addSubview:backBtn];
@@ -67,14 +77,14 @@
         UIBarButtonItem *item=[[UIBarButtonItem alloc]initWithCustomView:itemView];
         self.navigationItem.leftBarButtonItem=item;
         self.closeBtn=closeBtn;
-        
     }
-
+    
     NSURL *url=nil;
     if (![self.urlstr hasPrefix:@"https:"]) {
         _authenticated=YES;
     }
-    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (isNetworkPath(self.urlstr)) {
         self.urlstr = [self.urlstr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         url=[NSURL URLWithString:self.urlstr];
@@ -134,20 +144,20 @@ outofMethod:{}
     
     
     NSURLRequest *request=[NSURLRequest requestWithURL:url];
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-//    NSDictionary *headers = @{
-//                              @"Cookie":@"JSESSIONID=00F0BC8B896EB1129EE7E18FFA3469A2"
-//                              };
-//    [request setHTTPShouldHandleCookies:YES];
-//    [request setAllHTTPHeaderFields:headers];
+    //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    //    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    //    NSDictionary *headers = @{
+    //                              @"Cookie":@"JSESSIONID=00F0BC8B896EB1129EE7E18FFA3469A2"
+    //                              };
+    //    [request setHTTPShouldHandleCookies:YES];
+    //    [request setAllHTTPHeaderFields:headers];
     
     if (IOS8_OR_LATER && !self.forceFit) {
         [(WKWebView *)self.webView loadRequest:request];
     }else {
         [(UIWebView *)self.webView loadRequest:request];
     }
-    
+#pragma clang diagnostic pop
 }
 static BOOL isNetworkPath (NSString *path){
     if ([path containsString:@"http"]) {
@@ -178,10 +188,10 @@ static BOOL isNetworkPath (NSString *path){
 }
 #pragma mark - UIWebViewDelegate
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-//    [AwTipView showMessage:@"正在加载..." toView:webView];
+    //    [AwTipView showMessage:@"正在加载..." toView:webView];
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-//    [AwTipView hideForView:webView Animated:YES];
+    //    [AwTipView hideForView:webView Animated:YES];
     if (webView.canGoBack) {
         [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
         self.closeBtn.enabled=YES;
@@ -191,16 +201,16 @@ static BOOL isNetworkPath (NSString *path){
     }
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-//    [AwTipView hideForView:webView Animated:YES];
+    //    [AwTipView hideForView:webView Animated:YES];
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
+    AWLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
     //    NSHTTPCookieStorage *sharedHTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     //    　　NSArray *cookies = [sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.urlstr]];
     //    　　NSEnumerator *enumerator = [cookies objectEnumerator];
     //    　　NSHTTPCookie *cookie;
     //    　　while (cookie = [enumerator nextObject]) {
-    //        　　NSLog(@"COOKIE{name: %@, value: %@}", [cookie name], [cookie value]);
+    //        　　AWLog(@"COOKIE{name: %@, value: %@}", [cookie name], [cookie value]);
     //        　　}
     /*
      {
@@ -219,6 +229,8 @@ static BOOL isNetworkPath (NSString *path){
      "User-Agent" = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_5 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G36";
      }
      */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (!_authenticated) {
         
         _authenticated = NO;
@@ -229,12 +241,13 @@ static BOOL isNetworkPath (NSString *path){
         
         return NO;
     }
+#pragma clang diagnostic pop
     return YES;
 }
 #pragma mark === connectDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
-    NSLog(@"验证签名证书");
+    AWLog(@"验证签名证书");
     
     if ([challenge previousFailureCount] == 0)
     {
@@ -251,7 +264,7 @@ static BOOL isNetworkPath (NSString *path){
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"WebController received response via NSURLConnection");
+    AWLog(@"WebController received response via NSURLConnection");
     
     // remake a webview call now that authentication has passed ok.
     
@@ -271,7 +284,7 @@ static BOOL isNetworkPath (NSString *path){
 
 // 页面开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
-//    [AwTipView showMessage:@"正在加载..." toView:webView];
+    //    [AwTipView showMessage:@"正在加载..." toView:webView];
 }
 // 当内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation{
@@ -279,7 +292,7 @@ static BOOL isNetworkPath (NSString *path){
 }
 // 页面加载完成之后调用
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
-//    [AwTipView hideForView:webView Animated:YES];
+    //    [AwTipView hideForView:webView Animated:YES];
     if (webView.canGoBack) {
         [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
         self.closeBtn.enabled=YES;
@@ -290,7 +303,7 @@ static BOOL isNetworkPath (NSString *path){
 }
 // 页面加载失败时调用
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation{
-//    [AwTipView hideForView:webView Animated:YES];
+    //    [AwTipView hideForView:webView Animated:YES];
 }
 // 取消https 验证
 - (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
@@ -305,13 +318,13 @@ static BOOL isNetworkPath (NSString *path){
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
