@@ -204,7 +204,7 @@ static BOOL isNetworkPath (NSString *path){
     //    [AwTipView hideForView:webView Animated:YES];
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    AWLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
+    NSLog(@"Did start loading: %@ auth:%d", [[request URL] absoluteString], _authenticated);
     //    NSHTTPCookieStorage *sharedHTTPCookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     //    　　NSArray *cookies = [sharedHTTPCookieStorage cookiesForURL:[NSURL URLWithString:self.urlstr]];
     //    　　NSEnumerator *enumerator = [cookies objectEnumerator];
@@ -247,7 +247,7 @@ static BOOL isNetworkPath (NSString *path){
 #pragma mark === connectDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
-    AWLog(@"验证签名证书");
+    NSLog(@"验证签名证书");
     
     if ([challenge previousFailureCount] == 0)
     {
@@ -264,7 +264,7 @@ static BOOL isNetworkPath (NSString *path){
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    AWLog(@"WebController received response via NSURLConnection");
+    NSLog(@"WebController received response via NSURLConnection");
     
     // remake a webview call now that authentication has passed ok.
     

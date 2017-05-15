@@ -67,7 +67,7 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
 }
 -(void)aop_viewDidAppear:(BOOL)animated{
     [self aop_viewDidAppear:animated];
-#warning 填写附加的代码
+#pragma 填写附加的代码
     
     //    UIView *nav_back = [self.navigationController.navigationBar.subviews objectAtIndex:2];
     //    if ([nav_back isKindOfClass:NSClassFromString(@"UINavigationItemButtonView")]) {
