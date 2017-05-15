@@ -47,9 +47,9 @@ static NSArray *AuthControllers=nil;
     [super viewDidLoad];
 #pragma mark - 设置导航栏颜色值
     NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
-    if (IsStrEmpty(colorstring))colorstring=@"ffffff";
+    if (((colorstring) == nil) || ([(colorstring) isEqual:[NSNull null]]) ||([(colorstring)isEqualToString:@""]))colorstring=@"ffffff";
     [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:colorstring]];
-    [MTNotificationCenter addObserver:self selector:@selector(themeAction:) name:@"ThemeColorNav" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeAction:) name:@"ThemeColorNav" object:nil];
 }
 -(void)themeAction:(NSNotification *)notification{
     NSString *colorstring=notification.object;
@@ -135,7 +135,7 @@ static NSArray *AuthControllers=nil;
     
     [super dismissModalViewControllerAnimated:animated];
     
-    AWLog(@"dismissModalViewControllerAnimated \n");
+    NSLog(@"dismissModalViewControllerAnimated \n");
     
 }
 
@@ -191,7 +191,7 @@ static NSArray *AuthControllers=nil;
             if (self.navigationBarHidden) [self setNavigationBarHidden:NO animated:animated];
         }
     }else{
-        AWLog(@"use CommonViewController as super please");
+        NSLog(@"use CommonViewController as super please");
     }
 }
 #pragma mark -新增代码，用于滑动动画设计的

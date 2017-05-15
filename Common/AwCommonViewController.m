@@ -222,7 +222,8 @@
 //如果需要更换导航状态栏颜色，重写这个方法
 - (UIStatusBarStyle)preferredStatusBarStyle{
     NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
-    if(IsStrEmpty(colorstring)){
+    
+    if(((colorstring) == nil) || ([(colorstring) isEqual:[NSNull null]]) ||([(colorstring)isEqualToString:@""])){
         colorstring=@"ffffff";
         [CoreArchive setStr:@"ffffff" key:@"ThemeColorString"];
         return UIStatusBarStyleDefault;
