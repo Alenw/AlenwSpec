@@ -28,86 +28,56 @@
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        
-        //滚动视图
-        self.scrollView = [[UIScrollView alloc] init];
-        self.scrollView.contentSize = CGSizeMake(c_width*3, 0);
-        self.scrollView.contentOffset = CGPointMake(c_width, 0);
-        self.scrollView.pagingEnabled = YES;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.showsVerticalScrollIndicator = NO;
-        self.scrollView.delegate = self;
-        [self addSubview:self.scrollView];
-        
-        
-        _lowFloorView=[[UIView alloc]init];
-        [self addSubview:_lowFloorView];
-        
-        _nameLabel=[[UILabel alloc]init];
-        _nameLabel.textColor=[UIColor whiteColor];
-        _nameLabel.numberOfLines=1;
-        _nameLabel.font=[UIFont systemFontOfSize:17.0];
-        [_lowFloorView addSubview:_nameLabel];
-        
-        _pageControl = [[UIPageControl alloc] init];
-        _pageControl.userInteractionEnabled = NO;
-        _pageControl.hidesForSinglePage = YES;
-        _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
-        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
-        [_lowFloorView addSubview:_pageControl];
-        
-        
-        //初始化数据，当前图片默认位置是0
-        _curImageArray = [[NSMutableArray alloc] initWithCapacity:0];
-        _curPage = 0;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollBegin:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollStop:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [self prepareWork];
     }
     return self;
 }
+
 -(instancetype)initWithCoder:(NSCoder *)aDecoder{
     self=[super initWithCoder:aDecoder];
     if (self) {
-        //滚动视图
-        self.scrollView = [[UIScrollView alloc] init];
-        self.scrollView.contentSize = CGSizeMake(c_width*3, 0);
-        self.scrollView.contentOffset = CGPointMake(c_width, 0);
-        self.scrollView.pagingEnabled = YES;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.showsVerticalScrollIndicator = NO;
-        self.scrollView.delegate = self;
-        [self addSubview:self.scrollView];
-        
-        
-        _lowFloorView=[[UIView alloc]init];
-        [self addSubview:_lowFloorView];
-        
-        _nameLabel=[[UILabel alloc]init];
-        _nameLabel.textColor=[UIColor whiteColor];
-        _nameLabel.numberOfLines=2;
-        _nameLabel.font=[UIFont systemFontOfSize:13.0];
-        [_lowFloorView addSubview:_nameLabel];
-        
-        _pageControl = [[UIPageControl alloc] init];
-        _pageControl.userInteractionEnabled = NO;
-        _pageControl.hidesForSinglePage = YES;
-        _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
-        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
-        [_lowFloorView addSubview:_pageControl];
-        
-        
-        //初始化数据，当前图片默认位置是0
-        _curImageArray = [[NSMutableArray alloc] initWithCapacity:0];
-        _curPage = 0;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollBegin:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollStop:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [self prepareWork];
     }
     return self;
 }
+-(void)prepareWork{
+    //滚动视图
+    self.scrollView = [[UIScrollView alloc] init];
+    self.scrollView.contentSize = CGSizeMake(c_width*3, 0);
+    self.scrollView.contentOffset = CGPointMake(c_width, 0);
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.delegate = self;
+    [self addSubview:self.scrollView];
+    
+    _lowFloorView=[[UIView alloc]init];
+    [self addSubview:_lowFloorView];
+    
+    _nameLabel=[[UILabel alloc]init];
+    _nameLabel.textColor=[UIColor whiteColor];
+    _nameLabel.numberOfLines=2;
+    _nameLabel.font=[UIFont systemFontOfSize:15.0];
+    [_lowFloorView addSubview:_nameLabel];
+    
+    _pageControl = [[UIPageControl alloc] init];
+    _pageControl.userInteractionEnabled = NO;
+    _pageControl.hidesForSinglePage = YES;
+    _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    _pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    [_lowFloorView addSubview:_pageControl];
+    
+    
+    //初始化数据，当前图片默认位置是0
+    _curImageArray = [[NSMutableArray alloc] initWithCapacity:0];
+    _curPage = 0;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollBegin:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rollStop:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    self.isAutoScroll=YES;
+}
 -(void)rollBegin:(NSNotification *)notification{
-    [self beginTimer];
+    if (self.isAutoScroll) [self beginTimer];
 }
 -(void)rollStop:(NSNotification *)notification{
     [self pauseTimer];
@@ -117,6 +87,12 @@
     _titleTexts=titleTexts;
     if (_titleTexts) {
         _lowFloorView.backgroundColor=RGBACOLOR(0, 0, 0, 0.6);
+    }
+}
+-(void)setIsAutoScroll:(BOOL)isAutoScroll{
+    _isAutoScroll=isAutoScroll;
+    if (!isAutoScroll) {
+        [self removeTimer];
     }
 }
 -(void)layoutSubviews{
@@ -188,7 +164,7 @@
  */
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     // 开启定时器
-    [self addTimer];
+    if(self.isAutoScroll)[self addTimer];
 }
 
 
@@ -207,7 +183,7 @@
     }
     
     //判断图片长度是否大于1，如果一张图片不开启定时器
-    if ([imageArray count] > 1) {
+    if ([imageArray count] > 1 && self.isAutoScroll) {
         [self addTimer];
     }
 }

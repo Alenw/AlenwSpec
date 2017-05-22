@@ -50,6 +50,8 @@
 + (NSString *)queryStringFromDictionary:(NSDictionary *)dict addingPercentEscapes:(BOOL)add;
 /**  */
 - (NSDictionary *)queryDictionaryUsingEncoding:(NSStringEncoding)encoding;
+/** 把字典转成JSON字符串 */
++(NSDictionary *)parseJSONStringToNSDictionary:(NSString *)JSONString;
 
 /**  */
 - (NSString *)URLEncoding;

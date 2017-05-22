@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-
-
 @interface CoreArchive : NSObject
 
 #pragma mark - 偏好类信息存储
@@ -81,13 +79,5 @@
  *  解档
  */
 +(id)unarchiveObjectWithFile:(NSString *)path;
-
-
-
-
-
-
-
-
 
 @end

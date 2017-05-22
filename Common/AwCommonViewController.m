@@ -23,8 +23,6 @@
 - (id)init{
     self = [super init];
     if (self) {
-        //        self.isNeedBackItem = YES;
-        //        self.bSupportPanUI = YES;
         self.hasNav = YES;
         self.iOS7FullScreenLayout = NO;
     }
@@ -33,8 +31,6 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        //        self.isNeedBackItem = YES;
-        //        self.bSupportPanUI = YES;
         self.hasNav = YES;
         self.iOS7FullScreenLayout = NO;
     }
@@ -69,12 +65,6 @@
  */
 - (void)setTitle:(NSString *)title{
     [super setTitle:title];
-    //    UILabel *_titleView = [[UILabel alloc] init];
-    //    _titleView.textColor = [UIColor lightGrayColor];
-    //
-    //    _titleView.backgroundColor = [UIColor clearColor];
-    //    _titleView.font = [UIFont systemFontOfSize:19.0f];
-    //    _titleView.textAlignment = NSTextAlignmentCenter;
     
     CGRect frame = self.titleViewLabel.frame;
     if (IOS7_OR_LATER) {
@@ -100,15 +90,6 @@
         _titleViewLabel.adjustsFontSizeToFitWidth=YES;
     }
     return _titleViewLabel;
-}
-
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    if (IOS7_OR_LATER) {
-        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    }
 }
 
 - (void)loadView{
