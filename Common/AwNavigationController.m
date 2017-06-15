@@ -9,6 +9,8 @@
 #import "AwNavigationController.h"
 #import "AwCommonViewController.h"
 #import <SKYCategory/SKYCategory.h>
+#import "SystemInfo.h"
+#import "CoreArchive.h"
 
 static NSArray *AuthControllers=nil;
 @interface AwNavigationController ()

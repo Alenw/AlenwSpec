@@ -9,7 +9,7 @@
 #import "UIViewController+AOP.h"
 #import <objc/runtime.h>
 #import "SKYBarButtonItem.h"
-#import <SKYCategory/CoreArchive.h>
+#import "CoreArchive.h"
 
 #if (DEVELOPMENT==1)
 #import <UMMobClick/MobClick.h>

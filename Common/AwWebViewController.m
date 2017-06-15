@@ -10,6 +10,8 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import <SKYCategory/SKYCategory.h>
 #import <WebKit/WebKit.h>
+#import "SystemInfo.h"
+#import "CoreArchive.h"
 
 @interface AwWebViewController ()<UIWebViewDelegate,WKNavigationDelegate>
 

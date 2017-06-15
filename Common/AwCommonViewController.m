@@ -9,6 +9,8 @@
 #import "AwCommonViewController.h"
 #import <SKYCategory/SKYCategory.h>
 #import "SKYBarButtonItem.h"
+#import "SystemInfo.h"
+#import "CoreArchive.h"
 
 @interface AwCommonViewController ()
 
