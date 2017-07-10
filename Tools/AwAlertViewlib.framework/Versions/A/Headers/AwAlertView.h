@@ -218,6 +218,8 @@ typedef enum {
 
 @property (nonatomic, copy,nullable) AwTipViewCompletionBlock dismissBlock;
 
+/** 内容View */
+@property (nonatomic, strong,nullable) UIView *contentView;
 /*!
  是否正在显示
  */
