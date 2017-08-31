@@ -12,6 +12,7 @@
 #import <WebKit/WebKit.h>
 #import "SystemInfo.h"
 #import "CoreArchive.h"
+#import "AwConst.h"
 
 @interface AwWebViewController ()<UIWebViewDelegate,WKNavigationDelegate>
 
@@ -48,7 +49,7 @@
     }
     
     if (self.navigationController && !self.notNeedBackItem) {
-        NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
+        NSString * colorstring=[AwConst getColorString];
         if([colorstring isEqualToString:@"ffffff"]){
             self.itemTinColor=[UIColor colorWithHexString:@"656565"];
         }

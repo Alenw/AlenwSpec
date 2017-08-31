@@ -41,6 +41,14 @@ typedef enum {
  *  @return UIBarButtonItem
  */
 +(instancetype)initWithItemTitle:(NSString *)title withItemTintColor:(UIColor *)color target:(id)target action:(SEL)action backImage:(NSString *)image heighImage:(NSString *)heighImage;
+/**
+ *  创建自定义样式的 UIBarButtonItem
+ *
+ *  @param customview 自定义view
+ *  @param target     target
+ *  @param action     action
+ */
++ (instancetype)initWithCustomView:(UIView *)customview target:(id)target action:(SEL)action;
 
 + (instancetype)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage __attribute__((deprecated("Use initWithItemTitle:Syle:target:action:image:heighImage")));
 @end

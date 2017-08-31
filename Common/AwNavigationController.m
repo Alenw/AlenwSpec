@@ -11,6 +11,7 @@
 #import <SKYCategory/SKYCategory.h>
 #import "SystemInfo.h"
 #import "CoreArchive.h"
+#import "AwConst.h"
 
 static NSArray *AuthControllers=nil;
 @interface AwNavigationController ()
@@ -48,9 +49,7 @@ static NSArray *AuthControllers=nil;
 - (void)viewDidLoad{
     [super viewDidLoad];
 #pragma mark - 设置导航栏颜色值
-    NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
-    if (((colorstring) == nil) || ([(colorstring) isEqual:[NSNull null]]) ||([(colorstring)isEqualToString:@""]))colorstring=@"ffffff";
-    [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:colorstring]];
+    [self setNavBarBackgoundWithColor:[UIColor colorWithHexString:[AwConst navBackgound]]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(themeAction:) name:@"ThemeColorNav" object:nil];
 }
 -(void)themeAction:(NSNotification *)notification{

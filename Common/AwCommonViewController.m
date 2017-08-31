@@ -11,6 +11,7 @@
 #import "SKYBarButtonItem.h"
 #import "SystemInfo.h"
 #import "CoreArchive.h"
+#import "AwConst.h"
 
 @interface AwCommonViewController ()
 
@@ -84,8 +85,7 @@
     if (!_titleViewLabel) {
         _titleViewLabel = [[UILabel alloc] init];
         //默认颜色
-        NSString *string=[CoreArchive strForKey:@"ThemeColorString"];
-        _titleViewLabel.textColor = [string isEqualToString:@"ffffff"]  ? [UIColor colorWithHexString:@"282828"]:[UIColor whiteColor];
+        _titleViewLabel.textColor = [UIColor colorWithHexString:[AwConst navTextColor]];
         _titleViewLabel.backgroundColor = [UIColor clearColor];
         _titleViewLabel.font = [UIFont systemFontOfSize:19.0];
         _titleViewLabel.textAlignment = NSTextAlignmentCenter;
@@ -204,13 +204,9 @@
 #ifdef __IPHONE_7_0
 //如果需要更换导航状态栏颜色，重写这个方法
 - (UIStatusBarStyle)preferredStatusBarStyle{
-    NSString * colorstring=[CoreArchive strForKey:@"ThemeColorString"];
     
-    if(((colorstring) == nil) || ([(colorstring) isEqual:[NSNull null]]) ||([(colorstring)isEqualToString:@""])){
-        colorstring=@"ffffff";
+    if([[AwConst getColorString] isEqualToString:@"ffffff"]){
         [CoreArchive setStr:@"ffffff" key:@"ThemeColorString"];
-        return UIStatusBarStyleDefault;
-    }else if([colorstring isEqualToString:@"ffffff"]){
         return UIStatusBarStyleDefault;
     }else{
         return UIStatusBarStyleLightContent;
