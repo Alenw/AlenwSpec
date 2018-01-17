@@ -20,6 +20,27 @@
 /** 可变拷贝 */
 - (id)trueDeepMutableCopy;
 
+
+/**
+ parse array
+ 
+ @param index    the index of the array
+ @param name     the class name of the object in array
+ @return         a object
+ */
+- (id)parseObjectAtIndex:(NSInteger)index className:(NSString *)name;
+
+
+/**
+ parse like tableview datasource
+ 
+ @param section  section data array
+ @param row      row data array
+ @param name     the class name of the object in array
+ @return         a object
+ */
+- (id)parseTableSection:(NSInteger)section row:(NSInteger)row className:(NSString *)name;
+
 @end
 
 #pragma mark -

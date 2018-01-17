@@ -10,6 +10,8 @@
 #import <objc/runtime.h>
 #import "SKYBarButtonItem.h"
 #import "CoreArchive.h"
+#import <Foundation/Foundation.h>
+#import "AwConst.h"
 
 #if (DEVELOPMENT==1)
 #import <UMMobClick/MobClick.h>
@@ -35,6 +37,7 @@
 void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
     Method originalMethod=class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod=class_getInstanceMethod(class, swizzledSelector);
+    if(!originalMethod || !swizzledMethod)return;
     BOOL didAddMethod=class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
     if (didAddMethod) {
         class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
@@ -43,17 +46,34 @@ void swizzleMethod(Class class,SEL originalSelector,SEL swizzledSelector){
     }
 }
 -(void)aop_awakeFromNib{
-    NSLog(@"======viewController==%@,awakeFromNib======",NSStringFromClass([self class]));
+//    NSLog(@"======viewController==%@,awakeFromNib======",NSStringFromClass([self class]));
 }
 -(void)aop_viewDidLoad{
     [self aop_viewDidLoad];
     NSLog(@"viewDidLoad :%@",NSStringFromClass([self class]));
-    NSLog(@"viewDidLoad :-------");
+    NSLog(@"-------------------%@",NSStringFromClass([self class]));
+    
+    //1.加导航栏返回键
     if (self != self.navigationController.viewControllers[0]) {
-        NSString *string=[CoreArchive strForKey:@"ThemeColorString"];
-        
-        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithItemTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image: [string isEqualToString:@"ffffff"] ? @"nav_back":@"nav_back_white" heighImage:[string isEqualToString:@"ffffff"] ? @"nav_back" :@"nav_back_white"];
+        NSString *backImage=@"nav_back_white";
+        if ([[AwConst navBackgound] isEqualToString:@"ffffff"]) {
+            backImage=@"nav_back";
+        }
+        UIBarButtonItem *leftItem=[SKYBarButtonItem initWithItemTitle:@"提交" Style:SKYNavItemStyleBack target:self action:@selector(navBackAction) image: backImage heighImage:backImage];
         self.navigationItem.leftBarButtonItem=leftItem;
+    }
+//    2.对非AwNavigationController 设置通统一导航
+    if([self isKindOfClass:[UINavigationController class]] && ![self isMemberOfClass:NSClassFromString(@"AwNavigationController")]){
+        UINavigationController *nav=(UINavigationController *)self;
+        if (!nav.navigationBar.hidden) {
+            nav.navigationBar.translucent=NO;
+        }
+    }
+    if([self isKindOfClass:[UITabBarController class]]){
+        UITabBarController *nav=(UITabBarController *)self;
+        if (!nav.tabBar.hidden) {
+             nav.tabBar.translucent=NO;
+        }
     }
 }
 -(void)navBackAction{

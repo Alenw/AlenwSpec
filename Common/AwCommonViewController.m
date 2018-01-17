@@ -52,13 +52,12 @@
 - (void)setIOS7FullScreenLayout:(BOOL)iOS7FullScreenLayout{
     _iOS7FullScreenLayout = iOS7FullScreenLayout;
     if (IOS7_OR_LATER){
+        self.extendedLayoutIncludesOpaqueBars = NO;
         if (_iOS7FullScreenLayout){
             self.edgesForExtendedLayout = UIRectEdgeAll;
-            self.extendedLayoutIncludesOpaqueBars = NO;
             self.automaticallyAdjustsScrollViewInsets = YES;
         }else{
             self.edgesForExtendedLayout = UIRectEdgeNone;
-            self.extendedLayoutIncludesOpaqueBars = NO;
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
     }
@@ -71,7 +70,7 @@
     
     CGRect frame = self.titleViewLabel.frame;
     if (IOS7_OR_LATER) {
-        frame.size.width = 60;
+        frame.size.width = 200;
     }
     self.titleViewLabel.text = title;
     self.titleViewLabel.frame = CGRectMake(frame.origin.x, 5, frame.size.width, 34);
@@ -205,8 +204,7 @@
 //如果需要更换导航状态栏颜色，重写这个方法
 - (UIStatusBarStyle)preferredStatusBarStyle{
     
-    if([[AwConst getColorString] isEqualToString:@"ffffff"]){
-        [CoreArchive setStr:@"ffffff" key:@"ThemeColorString"];
+    if([[AwConst navBackgound] isEqualToString:@"ffffff"]){
         return UIStatusBarStyleDefault;
     }else{
         return UIStatusBarStyleLightContent;

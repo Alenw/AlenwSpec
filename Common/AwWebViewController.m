@@ -65,8 +65,8 @@
         [backBtn setImage:[UIImage imageNamed:[@"nav_back" stringByAppendingString:appdstring]] forState:UIControlStateNormal];
         [backBtn setTitle:@"返回" forState:UIControlStateNormal];
         [backBtn setTitleColor:self.itemTinColor forState:UIControlStateNormal];
-        backBtn.imageEdgeInsets=UIEdgeInsetsMake(0, 0, 0, 0);
-        backBtn.titleEdgeInsets=UIEdgeInsetsMake(0, -13, 0, 0);
+        backBtn.imageEdgeInsets=UIEdgeInsetsMake(0, -10, 0, 0);
+        backBtn.titleEdgeInsets=UIEdgeInsetsMake(0, -20, 0, 0);
         backBtn.titleLabel.font=[UIFont systemFontOfSize:14.0];
         [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [itemView addSubview:backBtn];

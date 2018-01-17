@@ -164,10 +164,20 @@ static const char * __jb_app = NULL;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     // method 3
-    if ( 0 == system("ls") )
-    {
+#if !defined(CC_TARGET_OS_TVOS)
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID)
+    if (nftw("ls", unlink_cb, 64, FTW_DEPTH | FTW_PHYS) == -1) {
+        return NO;
+    }else{
         return YES;
     }
+#else
+    //    if ( 0 == system("ls") )
+    //    {
+    //        return YES;
+    //    }
+#endif
+#endif
 #pragma clang diagnostic pop
 	
 	

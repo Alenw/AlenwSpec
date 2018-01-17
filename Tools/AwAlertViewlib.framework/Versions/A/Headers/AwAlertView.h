@@ -4,7 +4,7 @@
 //
 //  Created by yelin on 16/5/23.
 //  Copyright © 2016年 AlenW. All rights reserved.
-// 2016-11-17
+//  last updated 2017-11-16
 
 #import <UIKit/UIKit.h>
 #import "AwTipView.h"
@@ -114,20 +114,6 @@ typedef enum {
  */
 - (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 
-/**  指定即将展示的View在父视图中的Y值,view显示位置居中 */
--(void)showAnimated:(BOOL)animated withPositionY:(CGFloat)posY;
-/** 指定即将展示的View的距离底部的偏移值,view显示位置居中,标记是否选择动画 */
--(void)showAnimated:(BOOL)animated WithBottomYOffset:(CGFloat)offset;
-
-/** 指定在某个位置展示 */
--(void)showAnimated:(BOOL)animated inPoint:(CGPoint)point;
-
-/**
- *  指定在某个区域显示,Note:如果是自定义View，只支持约束和在layoutSubViews重写的布局，
- *  如果这个方面不是太懂的尽量不用这个方法
- */
--(void)showAnimated:(BOOL)animated inRect:(CGRect)rect;
-
 /**
  * 自定义View初始化方法
  *
@@ -203,4 +189,17 @@ typedef enum {
 /** 关闭按钮高亮图片 */
 @property (nonatomic, strong,nullable) UIImage *closeImage_hl __attribute__((deprecated("Use closeBtn to set attributes.")));
 
+/**  指定即将展示的View在父视图中的Y值,view显示位置居中 */
+-(void)showAnimated:(BOOL)animated withPositionY:(CGFloat)posY NS_DEPRECATED_IOS(2_0, 7_0, "Use offset attribute.") __TVOS_PROHIBITED;
+/** 指定即将展示的View的距离底部的偏移值,view显示位置居中,标记是否选择动画 */
+-(void)showAnimated:(BOOL)animated WithBottomYOffset:(CGFloat)offset NS_DEPRECATED_IOS(2_0, 7_0, "Use offset attribute.") __TVOS_PROHIBITED;
+
+/** 指定在某个位置展示 */
+-(void)showAnimated:(BOOL)animated inPoint:(CGPoint)point NS_DEPRECATED_IOS(2_0, 7_0, "Use offset attribute.") __TVOS_PROHIBITED;
+
+/**
+ *  指定在某个区域显示,Note:如果是自定义View，只支持约束和在layoutSubViews重写的布局，
+ *  如果这个方面不是太懂的尽量不用这个方法
+ */
+-(void)showAnimated:(BOOL)animated inRect:(CGRect)rect NS_DEPRECATED_IOS(2_0, 7_0, "Use offset attribute.") __TVOS_PROHIBITED;
 @end

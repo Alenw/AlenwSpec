@@ -166,3 +166,7 @@
 - (NSString *)MD5Hex;
 - (NSData *)hexStringToData;    //从16进制的字符串格式转换为NSData
 @end
+
+@interface NSAttributedString (Extension)
+
+@end

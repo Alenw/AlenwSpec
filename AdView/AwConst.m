@@ -10,7 +10,7 @@
 #import "CoreArchive.h"
 #import <SKYCategory/UIColor+Sky.h>
 
-#define nsxt 1
+#define nsxt 0
 
 @implementation AwConst
 +(NSString *)navTextColor{
@@ -31,6 +31,7 @@
     return navBackgound;
 }
 +(NSString *)getColorString{
+    if(!nsxt) return [AwConst navBackgound];
     NSString *colorString=[CoreArchive strForKey:@"ThemeColorString"];
     colorString=((colorString) == nil) || ([(colorString) isEqual:[NSNull null]]) ||([(colorString)isEqualToString:@""]) ?@"ffffff" : colorString;
     return colorString;
